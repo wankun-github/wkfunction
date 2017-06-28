@@ -1,0 +1,10 @@
+.sidebar-li {background-color: #2B2C3E;color: white;text-align: center;border: 1px solid #000000;cursor: pointer}
+.sidebar-a {color: white;text-decoration: none;}
+.sidebar-a:visited {color: white}
+.sidebar-a:hover {font-size: 16px;font-weight: 700}
+#ToExamineRecruiter-Table,#AdministrationApplicant,#AdministrationRecruiter,#AdministrationPosition {
+    float: right;
+    width: 85%;
+}
+th {text-align: center;}
+td {text-align: center;}

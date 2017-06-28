@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8"/>
+    <title>求职者主页</title>
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/applicant/homepage.css"/>
+    <script src="/js/applicant/homepage.js"></script>
+    <script src="/js/toastr/toastr.min.js"></script>
+    <script src="/js/jquery.jsonp.js"></script>
+    <link rel="stylesheet" href="/css/toastr/toastr.min.css"/>
+    <script src="/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="/bootstrap-fileinput/css/fileinput.css"/>
+    <!--简历输入框-->
+    <script src="/js/applicant/resume/classie.js"></script>
+    <link rel="stylesheet" href="/fonts/resume/font-awesome-4.2.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/component.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/demo.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/normalize.css"/>
+    <!--日期选择框-->
+    <link href="/Calendar/calendar.css" rel="stylesheet" type="text/css" />
+    <script language="JavaScript" type="text/javascript" src="/Calendar/Calendar.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/Calendar/calendar-zh.js"></script>
+    <script language="JavaScript" type="text/javascript" src="/Calendar/CalendarSetup.js"></script>
+
+    <style>
+        .panel-group{max-height:770px;overflow: auto;}
+        .leftMenu{margin:10px;margin-top:5px;}
+        .leftMenu .panel-heading{font-size:14px;padding-left:20px;height:36px;line-height:36px;color:white;position:relative;cursor:pointer;}/*转成手形图标*/
+        .leftMenu .panel-heading span{position:absolute;right:10px;top:12px;}
+        .leftMenu .menu-item-left{padding: 2px; background: transparent; border:1px solid transparent;border-radius: 6px;}
+        .leftMenu .menu-item-left:hover{background:#C4E3F3;border:1px solid #1E90FF;}
+    </style>
+</head>
+<body>
+    <div id="head">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <img src="/img/applicant/headlogo.png" height="50"/>
+                </div>
+                <div style="margin-left: 20%">
+                    <ul class="nav navbar-nav">
+                        <li id="JobPlaza">
+                            <a href="#" id="a-jobplaza" style="margin-left: 5%;width: 150px;color:#666; font-size:18px;">求职广场</a>
+                        </li>
+                        <li id="CompanyWorld">
+                            <a href="#" id="a-companyworld" style="margin-left: 5%;width: 150px;color:#666; font-size:18px;">公司天地</a>
+                        </li>
+                        <li id="PersonalCenter" style="display: none">
+                            <a href="#" id="a-myhome" style="margin-left: 5%;width: 150px;color:#666; font-size:18px;">我的主页</a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li id="login_li">
+                            <a id="login_a" href="#" data-toggle="modal" data-target="#loginModal">
+                                登录
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- 登录框 -->
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="width: 70%;margin: auto">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                        <img src="/img/applicant/login.png" height="25" width="180" style="float: left"/>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" role="form">
+                            <div class="form-group" style="margin: 2% auto">
+                                <div class="input-group col-sm-12">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+                                    <input type="text" class="form-control" id="account" placeholder="请输入账号"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin: 2% auto">
+                                <div class="input-group col-sm-12">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
+                                    <input type="password" class="form-control" id="password" placeholder="请输入密码"/>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin: 2% auto">
+                                <div class="input-group col-sm-12">
+                                    <span class="input-group-addon"><span class="glyphicon glyphicon-qrcode"></span></span>
+                                    <input type="text" class="form-control" id="verification" placeholder="请输入验证码"/>
+                                    <span class="input-group-addon" id="getverification" style="margin: 0;padding: 0;">
+                                        <img id="getverificationImg" src="http://localhost:8080/captcha/getcaptcha" height="32px" width="130px"/>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin: 5% auto">
+                                <div class="input-group col-sm-12">
+                                    <button id="login" type="button" class="btn btn-primary col-sm-12" style="font-size: larger">登&nbsp;&nbsp;&nbsp;录</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-9 col-sm-3">
+                                    <a href="#" id="regist">注册</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+        <!-- /.登录框 -->
+    </div>
+
+    <div id="body">
+        <!--求职广场-->
+        <div id="div-jobplaza">
+            求职广场
+        </div>
+
+        <!--公司天地-->
+        <div id="div-companyworld" style="display: none">
+            公司天地
+        </div>
+
+        <!--个人中心-->
+        <div id="div-myhome" style="display: none">
+            <!--侧边导航栏-->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="panel-group table-responsive" role="tablist">
+                        <div class="panel panel-primary leftMenu">
+                            <!-- 利用data-target指定要折叠的分组列表 -->
+                            <div class="panel-heading" id="collapseListGroupHeading1" data-toggle="collapse" data-target="#collapseListGroup1" role="tab" >
+                                <h4 class="panel-title">
+                                    个人信息
+                                    <span class="glyphicon glyphicon-chevron-up right"></span>
+                                </h4>
+                            </div>
+                            <!-- .panel-collapse和.collapse标明折叠元素 .in表示要显示出来 -->
+                            <div id="collapseListGroup1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="collapseListGroupHeading1">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <!-- 利用data-target指定URL -->
+                                        <button class="menu-item-left" data-target="test2.html" id="ModifyInformation-Button">
+                                            <span class="glyphicon glyphicon-triangle-right"></span>修改信息
+                                        </button>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <button class="menu-item-left" id="ModifyPassword-Button">
+                                            <span class="glyphicon glyphicon-triangle-right"></span>修改密码
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div><!--panel end-->
+                        <div class="panel panel-primary leftMenu">
+                            <div class="panel-heading" id="collapseListGroupHeading2" data-toggle="collapse" data-target="#collapseListGroup2" role="tab" >
+                                <h4 class="panel-title">
+                                    简历管理
+                                    <span class="glyphicon glyphicon-chevron-down right"></span>
+                                </h4>
+                            </div>
+                            <div id="collapseListGroup2" class="panel-collapse collapse" role="tabpanel" aria-labelledby="collapseListGroupHeading2">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <button class="menu-item-left" id="MyResume-Button">
+                                            <span class="glyphicon glyphicon-triangle-right"></span>我的简历
+                                        </button>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <button class="menu-item-left" id="NewlyResume-Button">
+                                            <span class="glyphicon glyphicon-triangle-right"></span>新建简历
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="MyHomePage">
+                    <!--修改个人信息-->
+                    <div id="ModifyInformation-Div">
+                        <ol class="breadcrumb" style="width: 14%;margin: 1% 0% 0% 1%;padding: 0%">
+                            <li><a href="#" onclick="$('#jibenziliao').show();$('#touxiangzhaopian').hide()">基本信息</a></li>
+                            <li><a href="#" onclick="$('#jibenziliao').hide();$('#touxiangzhaopian').show()">头像照片</a></li>
+                        </ol>
+                        <div style="border: 1px solid #337AB7;height: 1px;width: 14%;margin: 0% 0% 0% 1%;padding: 0%"></div>
+                        <div id="bd">
+                            <!--基本资料表单-->
+                            <div id="jibenziliao" >
+                                <div class="panel panel-primary" style="width: 95%;margin: 1% 1%">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" style="margin: 0% 71% 0% 0%;padding: 0%">编辑基本资料【登录账号不可修改】</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label for="imgUrl" class="col-sm-2 control-label">头像</label>
+                                                <div class="col-sm-3">
+                                                    <img id="imgUrl" src="" class="img-circle" style="height: 40%;width: 40%;margin: 0% 100% 0% 0%;padding: 0%"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="accid" class="col-sm-2 control-label">登录账号</label>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control" id="accid"
+                                                           onfocus="this.blur()"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="name" class="col-sm-2 control-label">真实姓名</label>
+                                                <div class="col-sm-5">
+                                                    <input type="text" class="form-control" id="name"
+                                                           placeholder="请输入姓名"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-2 control-label">性别</label>
+                                                <div class="col-sm-1">
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="genderRadios" id="gender1" value="0"/>男
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="genderRadios" id="gender2" value="1"/>女
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="age" class="col-sm-2 control-label">年龄</label>
+                                                <div class="col-sm-2">
+                                                    <input type="text" class="form-control" id="age"
+                                                           placeholder="请输入年龄"/>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-sm-offset-2 col-sm-1">
+                                                    <input type="button" class="btn btn-warning" value="保存" id="saveBasicInformation"/>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--头像表单-->
+                            <div id="touxiangzhaopian" style="display: none">
+                                <div class="panel panel-primary" style="width: 95%;margin: 1% 1%">
+                                    <div class="panel-heading">
+                                        <h3 class="panel-title" style="margin: 0% 93% 0% 0%;padding: 0%">上传照片</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <form id= "uploadForm">
+                                            <input type="hidden" name="id" id="applicantID" value= ""/>
+                                            <input type="file" name="file" class="file"/>
+                                        </form>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--修改密码-->
+                    <div id="ModifyPassword-Div" style="display: none">
+                        <div id="bd2">
+                            <div class="panel panel-primary" style="width: 95%;margin: 5px 1px;padding-bottom: 1%">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" style="margin: 0% 93% 0% 0%;padding: 0%">修改密码</h3>
+                                </div>
+                                <table class="table">
+                                    <tr><td style="width: 12%;">输入原密码：</td><td><input type="text" id="Modify-oldPassWord" class="form-control" placeholder="输入原密码" style="height: 70%;"/></td></tr>
+                                    <tr><td style="width: 12%;">输入新密码：</td><td><input type="text" id="Modify-newPassWord" class="form-control" placeholder="输入新密码" style="height: 70%;"/></td></tr>
+                                    <tr><td style="width: 12%;">确认新密码：</td><td><input type="text" id="Modify-confirmPassWord" class="form-control" placeholder="确认新密码" style="height: 70%;"/></td></tr>
+                                </table>
+                                <button class="btn btn-primary btn-lg" id="ModifyPassword">确认修改</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--我的简历-->
+                    <div id="MyResume-Div" style="display: none">
+                        <div id="bd3">
+                            <div class="panel panel-primary" style="width: 95%;margin: 5px 1px;padding-bottom: 1%">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title" style="margin: 0% 93% 0% 0%;padding: 0%">我的简历</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <table id="MyResume-Table" class="table table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center">标题</th>
+                                            <th style="text-align: center">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--查看当前简历模态框-->
+                        <div class="modal fade" id="myModal-MyResume" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="width: 70%">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                        </button>
+                                        <h4 class="modal-title" id="myModalLabel-MyResume">
+                                            我的简历
+                                        </h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--基本信息-->
+                                        <div id="seeResume-EssentialInformation">
+                                            <img src="/img/applicant/resume/基本信息.png" height="29" width="154" style="margin: 2% 100% 0% 4%"/>
+                                            <section class="content" style="margin: 0%;padding: 0%">
+                                        <span class="input input--hoshi" style="margin-left: 2%">
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-4" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="seeResume-4">
+                                                <span>标题</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <img id="seeResume-resume-img" src="/img/applicant/resume/resume-默认图片.jpg" height="120px" width="100px" style="margin: 0% 5% 0% 10%"/>
+                                        </span>
+                                                <br/>
+                                        <span class="input input--hoshi" >
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-5" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="seeResume-5">
+                                            <span>姓名</span>
+                                            </label>
+                                        </span>
+                                                <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-6" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="seeResume-6">
+                                                <span>年龄</span>
+                                            </label>
+                                        </span>
+                                                <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-8" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="seeResume-8">
+                                                <span>电话</span>
+                                            </label>
+                                        </span>
+                                                <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-9" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="seeResume-9">
+                                                <span>地址</span>
+                                            </label>
+                                        </span>
+                                                <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="seeResume-10" readonly="true"/>
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="seeResume-10">
+                                                <span>email</span>
+                                            </label>
+                                        </span>
+                                                <span class="input input--hoshi">
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2">
+                                                <span>性别</span>
+                                            </label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="seeResume-optionsRadios" id="seeResume-optionsRadios1" value="0" disabled="true"/>男
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="seeResume-optionsRadios" id="seeResume-optionsRadios2" value="1" disabled="true"/>女
+                                                </label>
+                                            </div>
+                                        </span>
+                                            </section>
+                                        </div>
+                                        <!--教育背景-->
+                                        <div id="seeResume-EducationalBgs">
+                                            <img src="/img/applicant/resume/教育背景.png" height="29" width="158" style="margin: 1% 0% 2% 4%;float: left"/>
+                                            <br/><br/><br/>
+                                            <table id="seeResume-EducationalBgs-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                                <thead>
+                                                <tr>
+                                                    <th style="text-align: center">开始时间</th>
+                                                    <th style="text-align: center">结束时间</th>
+                                                    <th style="text-align: center">学校名称</th>
+                                                    <th style="text-align: center">专业名称</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table><br/><br/><br/>
+                                        </div>
+                                        <!--工作经历-->
+                                        <div id="seeResume-WorkExperiences">
+                                            <img src="/img/applicant/resume/工作经历.png" height="28" width="154" style="margin: 3% 0% 2% 4%;float: left"/>
+                                            <br/><br/><br/>
+                                            <table id="seeResume-WorkExperiences-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                                <thead>
+                                                <tr>
+                                                    <th style="text-align: center">开始时间</th>
+                                                    <th style="text-align: center">结束时间</th>
+                                                    <th style="text-align: center">公司名称</th>
+                                                    <th style="text-align: center">从事职位</th>
+                                                    <th style="text-align: center">备注信息</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table><br/><br/><br/>
+                                        </div>
+                                        <!--技能证书-->
+                                        <div id="seeResume-SkillCertificates">
+                                            <img src="/img/applicant/resume/技能证书.png" height="34" width="154" style="margin: 3% 0% 2% 4%;float: left"/>
+                                            <br/><br/><br/>
+                                            <table id="seeResume-SkillCertificates-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                                <thead>
+                                                <tr>
+                                                    <th style="text-align: center">证书名称</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table><br/><br/><br/>
+                                        </div>
+                                        <!--自我介绍-->
+                                        <div id="seeResume-Evaluation">
+                                            <img src="/img/applicant/resume/自我介绍.png" height="34" width="153" style="margin: 1% 100% 2% 4%"/>
+                                            <form role="form" style="margin:1% 8% 3% 8%">
+                                                <div class="form-group">
+                                                    <textarea id="seeResume-Evaluation-textarea" class="form-control" rows="6" readonly="true"></textarea>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                                            关闭
+                                        </button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+
+                    </div>
+
+                    <!--新建简历-->
+                    <div id="NewlyResume-Div" style="display: none">
+                        <div id="bd4">
+                            <div style="width: 100%;margin: 1% 0% 0% 25%;padding-bottom: 1%;border: 2px solid #337AB7;height: 200%;width: 72%;border-radius: 5px;">
+                                <button id="saveResume" type="button" class="btn btn-warning" style="margin-right:-60%;margin-top: 1%">保存简历</button>
+                                <!--基本信息-->
+                                <div id="EssentialInformation">
+                                    <img src="/img/applicant/resume/基本信息.png" height="29" width="154" style="margin: 2% 100% 0% 4%"/>
+                                    <section class="content" style="margin: 0%;padding: 0%">
+                                        <span class="input input--hoshi" style="margin-left: 2%">
+                                            <input class="input__field input__field--hoshi" type="text" id="input-4" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="input-4">
+                                                <span class="input__label-content input__label-content--hoshi">标题</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <img id="resume-img" src="/img/applicant/resume/resume-默认图片.jpg" height="120px" width="100px" style="margin: 0% 5% 0% 10%"/>
+                                            <button id="resume-upload-button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">上传照片</button>
+                                        </span>
+                                        <br/>
+                                        <span class="input input--hoshi" >
+                                            <input class="input__field input__field--hoshi" type="text" id="input-5" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="input-5">
+                                                <span class="input__label-content input__label-content--hoshi">姓名</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="input-6" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="input-6">
+                                                <span class="input__label-content input__label-content--hoshi">年龄</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="input-8" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="input-8">
+                                                <span class="input__label-content input__label-content--hoshi">电话</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="input-9" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="input-9">
+                                                <span class="input__label-content input__label-content--hoshi">地址</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <input class="input__field input__field--hoshi" type="text" id="input-10" />
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2" for="input-10">
+                                                <span class="input__label-content input__label-content--hoshi">email</span>
+                                            </label>
+                                        </span>
+                                        <span class="input input--hoshi">
+                                            <label class="input__label input__label--hoshi input__label--hoshi-color-2">
+                                                <span class="input__label-content input__label-content--hoshi">性别</span>
+                                            </label>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios1" value="0"/>男
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label>
+                                                    <input type="radio" name="optionsRadios" id="optionsRadios2" value="1"/>女
+                                                </label>
+                                            </div>
+                                        </span>
+                                    </section>
+                                </div>
+                                <!-- 简历上传照片模态框 -->
+                                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel">
+                                                    上传照片
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id= "resume-upload">
+                                                    <input type="file" name="file" class="file"/>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+
+                                <!--教育背景-->
+                                <div id="EducationalBgs">
+                                    <img src="/img/applicant/resume/教育背景.png" height="29" width="158" style="margin: 1% 0% 2% 4%;float: left"/>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal-EducationalBgs" style="float: left;margin-left: 55%">添加教育背景</button>
+                                    <br/><br/><br/>
+                                    <table id="EducationalBgs-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center">开始时间</th>
+                                                <th style="text-align: center">结束时间</th>
+                                                <th style="text-align: center">学校名称</th>
+                                                <th style="text-align: center">专业名称</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table><br/><br/><br/>
+                                </div>
+                                <!-- 添加、修改 教育背景模态框 -->
+                                <div class="modal fade" id="myModal-EducationalBgs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-EducationalBgs">
+                                                    添加教育背景
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    <form class="bs-example bs-example-form" role="form">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">开始时间</span>
+                                                            <input id="EducationalBgsStartTime" type="date" class="form-control" placeholder="选择开始时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">结束时间</span>
+                                                            <input id="EducationalBgsEndTime" type="date" class="form-control" placeholder="选择结束时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">学校名称</span>
+                                                            <input id="EducationalBgsSchoolName" type="text" class="form-control" placeholder="填写学校名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">专业名称</span>
+                                                            <input id="EducationalBgsMajor" type="text" class="form-control" placeholder="填写专业名称"/>
+                                                        </div><br/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="saveEducationalBgs" data-dismiss="modal">保存</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                <div class="modal fade" id="myModal-modify-EducationalBgs" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-modify-EducationalBgs">
+                                                    修改教育背景
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    <form class="bs-example bs-example-form" role="form">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">开始时间</span>
+                                                            <input id="modifyEducationalBgsStartTime" type="date" class="form-control" placeholder="选择开始时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">结束时间</span>
+                                                            <input id="modifyEducationalBgsEndTime" type="date" class="form-control" placeholder="选择结束时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">学校名称</span>
+                                                            <input id="modifyEducationalBgsSchoolName" type="text" class="form-control" placeholder="填写学校名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">专业名称</span>
+                                                            <input id="modifyEducationalBgsMajor" type="text" class="form-control" placeholder="填写专业名称"/>
+                                                        </div><br/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button type="button" class="btn btn-primary" id="saveModifyEducationalBgs" data-dismiss="modal">保存</button>
+                                                <button type="button" class="btn btn-danger" id="deleteEducationalBgs" data-dismiss="modal">删除</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+
+                                <!--工作经历-->
+                                <div id="WorkExperiences">
+                                    <img src="/img/applicant/resume/工作经历.png" height="28" width="154" style="margin: 3% 0% 2% 4%;float: left"/>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal-WorkExperience" style="float: left;margin:3% 0% 0% 55%">添加工作经历</button>
+                                    <br/><br/><br/>
+                                    <table id="WorkExperiences-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center">开始时间</th>
+                                            <th style="text-align: center">结束时间</th>
+                                            <th style="text-align: center">公司名称</th>
+                                            <th style="text-align: center">从事职位</th>
+                                            <th style="text-align: center">备注信息</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table><br/><br/><br/>
+                                </div>
+                                <!-- 添加、修改 工作经历模态框 -->
+                                <div class="modal fade" id="myModal-WorkExperience" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-WorkExperience">
+                                                    添加工作经历
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    <form class="bs-example bs-example-form" role="form">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">开始时间</span>
+                                                            <input id="WorkExperienceStartTime" type="date" class="form-control" placeholder="选择开始时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">结束时间</span>
+                                                            <input id="WorkExperienceEndTime" type="date" class="form-control" placeholder="选择结束时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">公司名称</span>
+                                                            <input id="CompanyName" type="text" class="form-control" placeholder="填写公司名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">从事职位</span>
+                                                            <input id="Position" type="text" class="form-control" placeholder="填写从事职位名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">备注信息</span>
+                                                            <input id="Remark" type="text" class="form-control" placeholder="填写备注信息"/>
+                                                        </div><br/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button id="saveWorkExperience" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                <div class="modal fade" id="myModal-modify-WorkExperience" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-modify-WorkExperience">
+                                                    修改工作经历
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div>
+                                                    <form class="bs-example bs-example-form" role="form">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">开始时间</span>
+                                                            <input id="modify-WorkExperienceStartTime" type="date" class="form-control" placeholder="选择开始时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">结束时间</span>
+                                                            <input id="modify-WorkExperienceEndTime" type="date" class="form-control" placeholder="选择结束时间"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">公司名称</span>
+                                                            <input id="modify-CompanyName" type="text" class="form-control" placeholder="填写公司名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">从事职位</span>
+                                                            <input id="modify-Position" type="text" class="form-control" placeholder="填写从事职位名称"/>
+                                                        </div><br/>
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon">备注信息</span>
+                                                            <input id="modify-Remark" type="text" class="form-control" placeholder="填写备注信息"/>
+                                                        </div><br/>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button id="saveModifyWorkExperience" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                                                <button id="deleteWorkExperience" type="button" class="btn btn-danger" data-dismiss="modal">删除</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+
+                                <!--技能证书-->
+                                <div id="SkillCertificates">
+                                    <img src="/img/applicant/resume/技能证书.png" height="34" width="154" style="margin: 3% 0% 2% 4%;float: left"/>
+                                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal-SkillCertificate" style="float: left;margin:3% 0% 0% 55%">添加技能证书</button>
+                                    <br/><br/><br/>
+                                    <table id="SkillCertificates-Table" class="table table-hover" style="width: 85%;margin: 0 auto">
+                                        <thead>
+                                        <tr>
+                                            <th style="text-align: center">证书名称</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table><br/><br/><br/>
+                                </div>
+                                <!-- 添加、修改 技能证书模态框 -->
+                                <div class="modal fade" id="myModal-SkillCertificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-SkillCertificate">
+                                                    添加技能证书
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">技能证书名称</span>
+                                                    <input id="SkillCertificateName" type="text" class="form-control" placeholder="填写技能证书名称"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button id="saveSkillCertificate" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+                                <div class="modal fade" id="myModal-modify-SkillCertificate" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title" id="myModalLabel-modify-SkillCertificate">
+                                                    修改技能证书
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon">技能证书名称</span>
+                                                    <input id="modify-SkillCertificateName" type="text" class="form-control" placeholder="填写技能证书名称"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                    关闭
+                                                </button>
+                                                <button id="saveModifySkillCertificate" type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+                                                <button id="deleteSkillCertificate" type="button" class="btn btn-danger" data-dismiss="modal">删除</button>
+                                            </div>
+                                        </div><!-- /.modal-content -->
+                                    </div><!-- /.modal-dialog -->
+                                </div><!-- /.modal -->
+
+
+                                <!--自我介绍-->
+                                <div id="Evaluation">
+                                    <img src="/img/applicant/resume/自我介绍.png" height="34" width="153" style="margin: 1% 100% 2% 4%"/>
+                                    <form role="form" style="margin:1% 8% 3% 8%">
+                                        <div class="form-group">
+                                            <textarea id="Evaluation-textarea" class="form-control" rows="6"></textarea>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="foot" style="position: fixed;bottom: 0;left: 0;right: 0;font-size: small;color: #2081B6">
+        2017&nbsp;©求职站
+    </div>
+    <!--简历样式处理-->
+    <script>
+        (function() {
+            // trim polyfill : https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/Trim
+            if (!String.prototype.trim) {
+                (function() {
+                    // Make sure we trim BOM and NBSP
+                    var rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+                    String.prototype.trim = function() {
+                        return this.replace(rtrim, '');
+                    };
+                })();
+            }
+
+            [].slice.call( document.querySelectorAll( 'input.input__field' ) ).forEach( function( inputEl ) {
+                // in case the input is already filled..
+                if( inputEl.value.trim() !== '' ) {
+                    classie.add( inputEl.parentNode, 'input--filled' );
+                }
+
+                // events:
+                inputEl.addEventListener( 'focus', onInputFocus );
+                inputEl.addEventListener( 'blur', onInputBlur );
+            } );
+
+            function onInputFocus( ev ) {
+                classie.add( ev.target.parentNode, 'input--filled' );
+            }
+
+            function onInputBlur( ev ) {
+                if( ev.target.value.trim() === '' ) {
+                    classie.remove( ev.target.parentNode, 'input--filled' );
+                }
+            }
+        })();
+    </script>
+</body>
+</html>

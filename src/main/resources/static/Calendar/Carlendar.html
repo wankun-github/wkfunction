@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+
+<style type="text/css">
+<!--
+body{margin-top:0pt;margin-left:0pt;margin-right:0pt;margin-bottom:0pt;}
+img {
+	vertical-align: bottom;
+}
+.bgTable {
+	font-size: 11px;
+	color: #000000;
+	cursor: default;
+	font-family: "新宋体", sans-serif;
+	background-color: #FFFFCC;
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-right-style: solid;
+	border-bottom-style: solid;
+	border-left-style: solid;
+	border-top-color: #000000;
+	border-right-color: #FFFFFF;
+	border-bottom-color: #FFFFFF;
+	border-left-color: #000000;
+}
+.dataTR{
+	height:25px;
+}
+
+--> 
+</style>
+<link href="calendar.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/javascript" src="Calendar.js"></script>
+<script language="JavaScript" type="text/javascript" src="calendar-zh.js"></script>
+<script language="JavaScript" type="text/javascript" src="CalendarSetup.js"></script>
+
+
+<title>时间控件测试</title>
+
+
+</head>
+<body>
+<table width="100%" class="bgTable" border="1">
+  <tr class="dataTR">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+  <tr class="dataTR">
+    <td><input name="fdate" type="text" id="fdate" /><img src="selectDateTime.gif" id="trigger" style="cursor: pointer;"/>
+    </td>
+    <td><input name="fdatetime" type="text" id="fdatetime" /><img src="selectDateTime.gif" id="trigger1" style="cursor: pointer;"/></td>
+  </tr>
+  <tr class="dataTR">
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  Calendar.setup(
+  {
+		inputField  : "fdate",     //input域的ID
+		ifFormat    : "%Y-%m-%d",  //输出的格式
+		button: "trigger" ,        //选择图片的ID
+		showsTime:true             //是否在控件中显示时间（可忽略）
+	}
+);
+  Calendar.setup({inputField  : "fdatetime",ifFormat    : "%Y-%m-%d %H:%M",button: "trigger1",showsTime:true});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>求职站后台管理登录</title>
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/toastr/toastr.min.js"></script>
+    <script src="/js/jquery.jsonp.js"></script>
+    <link rel="stylesheet" href="/css/toastr/toastr.min.css"/>
+    <script src="/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="/bootstrap-fileinput/css/fileinput.css"/>
+    <link rel="stylesheet" href="/css/recruiter/login.css"/>
+    <script src="/js/administrator/login.js"></script>
+
+    <!--输入框-->
+    <script src="/js/applicant/resume/classie.js"></script>
+    <link rel="stylesheet" href="/fonts/resume/font-awesome-4.2.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/component.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/demo.css"/>
+    <link rel="stylesheet" href="/css/applicant/resume/normalize.css"/>
+</head>
+<body>
+    <div id="full">
+        <!--登录框-->
+        <div id="loginPape" class="panel panel-primary">
+            <div class="panel-heading" style="background-color: white;border: 0px">
+                <h3 id="loginPape-h3" class="panel-title">求职站后台管理系统</h3>
+            </div>
+            <div class="panel-body">
+                <section class="content" style="margin: 0 auto;padding: 0%;width: 85%">
+                    <span class="input input--hoshi">
+                        <input class="input__field input__field--hoshi" type="text" id="account" />
+                        <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="account">
+                            <span>账号</span>
+                        </label>
+                    </span>
+                    <span class="input input--hoshi">
+                        <input class="input__field input__field--hoshi" type="password" id="password" />
+                        <label class="input__label input__label--hoshi input__label--hoshi-color-1" for="password">
+                            <span>密码</span>
+                        </label>
+                    </span>
+                </section>
+                <button id="loginButton" type="button" class="btn btn-primary btn-lg btn-block">登录</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

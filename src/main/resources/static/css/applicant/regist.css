@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+html {
+    height: 100%;
+    width: 100%;
+}
+body {
+    height: 100%;
+    width: 100%;
+    font-size: 16px;
+    font-family: "Arial","Microsoft YaHei","黑体","宋体",sans-serif;
+    text-align: center;
+}
+#head {
+    height: 75px;
+    margin: 0;
+    padding: 0;
+}
+#headlogo {
+    height: 53px;
+    width: 259px;
+    margin: 1% 0 0 15%;
+    padding: 0;
+    float: left;
+}
+#headVerticalLine{
+    height: 40px;
+    width: 1px;
+    margin: 2% 0 0 1%;
+    padding: 0;
+    float: left;
+    border: 1px solid #C9C9C9;
+}
+#headTitle{
+    height: 53px;
+    margin: 20px 0 0 1%;
+    padding: 0;
+    float: left;
+}
+#headTitleR{
+    margin: 3% 15% 0 0;
+    float: right;
+}
+#headTitleR h6{
+    float: right;
+}
+#headTitleR button{
+    font-size: 10px;
+    float: right;
+}
+#content {
+    width: 30%;
+    margin: 5% auto;
+}
+

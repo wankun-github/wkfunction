@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>求职站招聘者管理系统</title>
+    <script src="/js/jquery-3.1.1.min.js"></script>
+    <link rel="stylesheet" href="/bootstrap-3.3.7-dist/css/bootstrap.css"/>
+    <script src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+    <script src="/js/toastr/toastr.min.js"></script>
+    <script src="/js/jquery.jsonp.js"></script>
+    <link rel="stylesheet" href="/css/toastr/toastr.min.css"/>
+    <script src="/bootstrap-fileinput/js/fileinput.js"></script>
+    <script src="/bootstrap-fileinput/js/locales/zh.js"></script>
+    <link rel="stylesheet" href="/bootstrap-fileinput/css/fileinput.css"/>
+
+    <link rel="stylesheet" href="/css/recruiter/homepage.css"/>
+    <script src="/js/recruiter/homepage.js"></script>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-default" role="navigation">
+
+        <div class="container-fluid" style="background-color: #175DBA">
+            <div class="navbar-header" style="margin-left: 1%">
+                <a class="navbar-brand" href="#" style="color: white">求职站招聘者管理系统</a>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a style="color: white" id="recruiterName"></a></li>
+                <li><a href="#" style="color: white" id="exit"><span class="glyphicon glyphicon-log-in"></span> 安全退出</a></li>
+            </ul>
+        </div>
+
+        <div style="background-color: #2B2C3E;height: 555px;width: 15%;float: left">
+            <ul class="list-group" style="width: 100%">
+                <li id="Li-PersonalCenter" class="list-group-item sidebar-li"><a href="#" class="sidebar-a" style="text-decoration: none">个人中心</a></li>
+                <li id="Li-PositionCenter" class="list-group-item sidebar-li"><a href="#" class="sidebar-a" style="text-decoration: none">职位中心</a></li>
+                <li id="Li-MessageCenter" class="list-group-item sidebar-li"><a href="#" class="sidebar-a" style="text-decoration: none">消息中心</a></li>
+            </ul>
+        </div>
+
+        <!--个人中心-->
+        <div id="PersonalCenter">
+            <div class="panel panel-primary mianban">
+                <div class="panel-heading">
+                    <h3 class="panel-title">个人中心</h3>
+                </div>
+                <ul class="nav nav-tabs nav-justified">
+                    <li><a href="#" onclick="$('#Information-panelBody').show();$('#Album-panelBody').hide()">基本信息</a></li>
+                    <li><a id="complay-Aulme" href="#" onclick="$('#Information-panelBody').hide();$('#Album-panelBody').show()">公司相册</a></li>
+                </ul>
+                <!--基本信息-->
+                <div id="Information-panelBody" class="panel-body">
+                    <div id="PositionCenter-head">
+                        <img id="headImg" src="/img/applicant/resume/resume-默认图片.jpg" height="100" width="100" style="float: left" class="img-rounded"/>
+                        <div id="PositionCenterInformation">
+                            <span class="label label-default float-left">营业执照 :</span><p id="PositionCenterInformation-businessLicense" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">公司账号 :</span><p id="PositionCenterInformation-accid" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">公司名称 :</span><p id="PositionCenterInformation-name" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">公司地址 :</span><p id="PositionCenterInformation-address" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">联系电话 :</span><p id="PositionCenterInformation-phone" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">公司类型 :</span><p id="PositionCenterInformation-companyType" style="margin-left: 9%"></p>
+                            <span class="label label-default float-left">公司简介 :</span><textarea id="PositionCenterInformation-introduction" class="form-control" style="float: left;width: 80%;margin:0% 0% 0% 2%;padding: 0%" rows="5" readonly="true"></textarea>
+                        </div>
+                    </div>
+                    <div id="PositionCenter-body" style="padding: 30% 0% 6% 25%">
+                        <button type="button" class="btn btn-primary btn-lg" style="width: 30%" data-toggle="modal" data-target="#myModal-EssentialInformation">编辑基本信息</button>
+                        <!-- 基本信息模态框（Modal） -->
+                        <div class="modal fade" id="myModal-EssentialInformation" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel">编辑基本信息</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="bs-example bs-example-form" role="form">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">公司名称</span>
+                                                <input id="edit-Name" type="text" class="form-control" placeholder="请填写公司名称"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">公司地址</span>
+                                                <input id="edit-Address" type="text" class="form-control" placeholder="请填写公司地址"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">公司电话</span>
+                                                <input id="edit-Phone" type="text" class="form-control" placeholder="请填写公司电话"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">公司类型</span>
+                                                <input id="edit-CompanyType" type="text" class="form-control" placeholder="请填写公司类型"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">公司简介</span>
+                                                <input id="edit-Introduction" type="text" class="form-control" placeholder="请填写公司简介"/>
+                                            </div>
+                                            <br/>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button id="edit-EssentialInformation-saveButton" type="button" class="btn btn-primary">保存</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
+
+                        <button type="button" class="btn btn-danger btn-lg" style="width: 30%" data-toggle="modal" data-target="#myModal-editPassword">修改登录密码</button>
+                        <!-- 修改密码模态框 -->
+                        <div class="modal fade" id="myModal-editPassword" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel-editPassword">修改登录密码</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="bs-example bs-example-form" role="form">
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">输入原密码</span>
+                                                <input id="edit-oldpassword" type="password" class="form-control" placeholder="请填写原密码"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">输入新密码</span>
+                                                <input id="edit-newpassword" type="password" class="form-control" placeholder="请填写新密码"/>
+                                            </div>
+                                            <br/>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-addon">确认新密码</span>
+                                                <input id="edit-repeatNewpassword" type="password" class="form-control" placeholder="请确认新密码"/>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                        <button id="edit-Password-saveButton" type="button" class="btn btn-primary">确认修改</button>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
+
+                    </div>
+                </div>
+
+                <!--相册-->
+                <div id="Album-panelBody" class="panel-body" style="display: none;padding: 0%">
+                    <div id="Album-head">
+                        <button class="btn btn-primary btn-block" data-toggle="modal" data-target="#myModal-chufaButton" style="margin: 0%">上传图片</button>
+                        <div class="modal fade" id="myModal-chufaButton" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" style="width: 60%">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title" id="myModalLabel-chufaButton">上传图片</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <!--相册表单-->
+                                        <form id= "uploadForm">
+                                            <input id="Album-input" type="file" name="file" class="file" multiple="multiple"/>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal -->
+                        </div>
+                    </div>
+                    <div id="Album-body" style="padding: 0%">
+                        <div id="myCarousel" class="carousel slide" style="height: 440px;width: 100%">
+                            <!-- 轮播（Carousel）项目 -->
+                            <div class="carousel-inner" id="Album-body-carousel-inner" style="height: 440px;width: 100%">
+
+                            </div>
+                            <!-- 轮播（Carousel）导航 -->
+                            <a class="carousel-control left" href="#myCarousel"
+                               data-slide="prev">&lsaquo;</a>
+                            <a class="carousel-control right" href="#myCarousel"
+                               data-slide="next">&rsaquo;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--职位中心-->
+        <div id="PositionCenter" style="display: none;">
+            <div class="panel panel-primary mianban">
+                <div class="panel-heading">
+                    <h3 class="panel-title">职位中心</h3>
+                </div>
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+
+        <!--消息中心-->
+        <div id="MessageCenter" style="display: none;">
+            <div class="panel panel-primary mianban">
+                <div class="panel-heading">
+                    <h3 class="panel-title">消息中心</h3>
+                </div>
+                <div class="panel-body">
+                    消息中心
+                </div>
+            </div>
+        </div>
+    </nav>
+
+</body>
+</html>

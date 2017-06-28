@@ -1,0 +1,15 @@
+server:
+  port: 8081
+  tomcat:
+    accesslog:
+      enabled: true
+    basedir: target/tomcat
+    uri-encoding: utf-8
+
+logging:
+  file: log.log
+spring:
+  thymeleaf:
+    cache: false
+
+
